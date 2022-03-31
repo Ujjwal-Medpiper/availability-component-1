@@ -4,8 +4,11 @@ import { IconContext } from "react-icons";
 import TimeRangePicker from "@wojtekmaj/react-timerange-picker/dist/entry.nostyle";
 import "./Availability.css";
 import "./TimePicker.css";
+import { useEffect } from "react";
 
 const Availability = () => {
+  const [selected, setSelected] = useState(true);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [timeRange, setTimeRange] = useState({
     sunAvail: {
       availTime: "",
@@ -51,6 +54,37 @@ const Availability = () => {
     },
   });
 
+  useEffect(() => {
+    if (
+      timeRange.sunAvail.availTime == "" &&
+      timeRange.monAvail.availTime == "" &&
+      timeRange.tueAvail.availTime == "" &&
+      timeRange.wedAvail.availTime == "" &&
+      timeRange.thuAvail.availTime == "" &&
+      timeRange.friAvail.availTime == "" &&
+      timeRange.satAvail.availTime == ""
+    ) {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
+  }, [timeRange]);
+
+  const monthName = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   let date = new Date();
   let firstDay = new Date(date.getFullYear(), 0, 1);
   // calculating number of days in given year before a given date
@@ -59,6 +93,26 @@ const Availability = () => {
   let weekNo = Math.ceil((date.getDay() + 1 + noOfDays) / 7);
 
   let dayNo = date.getDay();
+
+  let first = date.getDate() - dayNo;
+  let last = first + 6;
+
+  let firstWeekDay = new Date(date.setDate(first));
+  let lastWeekDay = new Date(date.setDate(last));
+
+  let weekFirstDate =
+    firstWeekDay.getDate() +
+    "/" +
+    firstWeekDay.getMonth() +
+    "/" +
+    firstWeekDay.getFullYear();
+
+  let weekLastDate =
+    lastWeekDay.getDate() +
+    "/" +
+    lastWeekDay.getMonth() +
+    "/" +
+    lastWeekDay.getFullYear();
 
   const handleSubmit = () => {
     console.log(weekNo);
@@ -69,8 +123,10 @@ const Availability = () => {
   const handleChange = (e) => {
     let name = e.target.name;
     let checked = e.target.checked;
-    if (checked) {
-      console.log(name);
+    if (!checked) {
+      setSelected(false);
+    } else {
+      setSelected(true);
     }
   };
 
@@ -88,7 +144,9 @@ const Availability = () => {
     <IconContext.Provider value={{ size: "1.5em" }}>
       <div className="container">
         Availability
-        <h2>Set Your Weekly Hours</h2>
+        <h2>
+          Set Your Weekly Hours from {weekFirstDate} to {weekLastDate}
+        </h2>
         <div className="input-container">
           <div className="row">
             <input
@@ -120,7 +178,7 @@ const Availability = () => {
               disabled={dayNo > 1}
             />
             <label htmlFor="monday">MON</label>
-            {dayNo > 1 ? (
+            {dayNo > 1 || !selected ? (
               <p>Unavailable</p>
             ) : (
               <>
@@ -201,13 +259,14 @@ const Availability = () => {
               disabled={dayNo > 4}
             />
             <label htmlFor="thursday">THU</label>
-            {dayNo > 4 ? (
+            {dayNo > 4 || !selected ? (
               <p>Unavailable</p>
             ) : (
               <>
                 <TimeRangePicker
                   disableClock={true}
                   clearIcon={<FaRegTrashAlt />}
+                  required={true}
                   onChange={(value) => {
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -237,7 +296,7 @@ const Availability = () => {
               disabled={dayNo > 5}
             />
             <label htmlFor="friday">FRI</label>
-            {dayNo > 5 ? (
+            {dayNo > 5 || !selected ? (
               <p>Unavailable</p>
             ) : (
               <TimeRangePicker
@@ -285,7 +344,12 @@ const Availability = () => {
               />
             )}
           </div>
-          <input type="submit" value="Submit" onClick={handleSubmit} />
+          <input
+            type="submit"
+            value="Submit"
+            onClick={handleSubmit}
+            disabled={buttonDisabled}
+          />
         </div>
       </div>
     </IconContext.Provider>

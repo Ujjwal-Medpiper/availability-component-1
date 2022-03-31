@@ -28,14 +28,23 @@
   /* flex-grow: 1; */
   padding: 5px 2px;
   box-sizing: content-box;
-  border: 1px solid grey;
+  border: 2px solid grey;
   border-radius: 8px;
   /* margin: 15px 0; */
 }
+
+.react-timerange-picker__inputGroup:focus-within {
+  border-color: #0078d7;
+}
+
 .react-timerange-picker__inputGroup__divider {
   padding: 1px 0;
   white-space: pre;
 }
+
+/* .react-timerange-picker__inputGroup__input:focus {
+  border: 1px solid #0078d7;
+} */
 .react-timerange-picker__inputGroup__input {
   min-width: 0.54em;
   height: 100%;
