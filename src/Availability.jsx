@@ -7,13 +7,48 @@ import "./TimePicker.css";
 
 const Availability = () => {
   const [timeRange, setTimeRange] = useState({
-    sunAvail: "",
-    monAvail: "",
-    tueAvail: "",
-    wedAvail: "",
-    thuAvail: "",
-    friAvail: "",
-    satAvail: "",
+    sunAvail: {
+      availTime: "",
+      slotDuration: "",
+      noOfSlots: "",
+      slots: [],
+    },
+    monAvail: {
+      availTime: "",
+      slotDuration: "",
+      noOfSlots: "",
+      slots: [],
+    },
+    tueAvail: {
+      availTime: "",
+      slotDuration: "",
+      noOfSlots: "",
+      slots: [],
+    },
+    wedAvail: {
+      availTime: "",
+      slotDuration: "",
+      noOfSlots: "",
+      slots: [],
+    },
+    thuAvail: {
+      availTime: "",
+      slotDuration: "15",
+      noOfSlots: "",
+      slots: [],
+    },
+    friAvail: {
+      availTime: "",
+      slotDuration: "",
+      noOfSlots: "",
+      slots: [],
+    },
+    satAvail: {
+      availTime: "",
+      slotDuration: "",
+      noOfSlots: "",
+      slots: [],
+    },
   });
 
   let date = new Date();
@@ -36,6 +71,16 @@ const Availability = () => {
     let checked = e.target.checked;
     if (checked) {
       console.log(name);
+    }
+  };
+
+  const slotTime = (start, end) => {
+    if (start && end) {
+      let hr = (parseInt(end.slice(0, 2)) - parseInt(start.slice(0, 2))) * 60;
+      let min = parseInt(end.slice(3)) - parseInt(start.slice(3));
+      var total = hr + min;
+      // return total;
+      return console.log(total);
     }
   };
 
@@ -78,11 +123,17 @@ const Availability = () => {
             {dayNo > 1 ? (
               <p>Unavailable</p>
             ) : (
-              <TimeRangePicker
-                disableClock={true}
-                clearIcon={<FaRegTrashAlt />}
-                value={timeRange.monAvail}
-              />
+              <>
+                <TimeRangePicker
+                  disableClock={true}
+                  clearIcon={<FaRegTrashAlt />}
+                  value={timeRange.monAvail}
+                />
+                <select name="slot" id="slotSelect">
+                  <option value="15">15 min</option>
+                  <option value="30">30 min</option>
+                </select>
+              </>
             )}
           </div>
           <div className="row">
@@ -98,11 +149,17 @@ const Availability = () => {
             {dayNo > 2 ? (
               <p>Unavailable</p>
             ) : (
-              <TimeRangePicker
-                disableClock={true}
-                clearIcon={<FaRegTrashAlt />}
-                value={timeRange.tueAvail}
-              />
+              <>
+                <TimeRangePicker
+                  disableClock={true}
+                  clearIcon={<FaRegTrashAlt />}
+                  value={timeRange.tueAvail}
+                />
+                <select name="slot" id="slotSelect">
+                  <option value="15">15 min</option>
+                  <option value="30">30 min</option>
+                </select>
+              </>
             )}
           </div>
           <div className="row">
@@ -124,10 +181,13 @@ const Availability = () => {
                 onChange={(value) =>
                   setTimeRange((prevRange) => ({
                     ...prevRange,
-                    wedAvail: value,
+                    wedAvail: {
+                      ...prevRange.wedAvail,
+                      availTime: value,
+                    },
                   }))
                 }
-                value={timeRange.wedAvail}
+                value={timeRange.wedAvail.availTime}
               />
             )}
           </div>
@@ -144,17 +204,27 @@ const Availability = () => {
             {dayNo > 4 ? (
               <p>Unavailable</p>
             ) : (
-              <TimeRangePicker
-                disableClock={true}
-                clearIcon={<FaRegTrashAlt />}
-                onChange={(value) =>
-                  setTimeRange((prevRange) => ({
-                    ...prevRange,
-                    thuAvail: value,
-                  }))
-                }
-                value={timeRange.thuAvail}
-              />
+              <>
+                <TimeRangePicker
+                  disableClock={true}
+                  clearIcon={<FaRegTrashAlt />}
+                  onChange={(value) => {
+                    setTimeRange((prevRange) => ({
+                      ...prevRange,
+                      thuAvail: {
+                        ...prevRange.thuAvail,
+                        availTime: value,
+                      },
+                    }));
+                    slotTime(value[0], value[1]);
+                  }}
+                  value={timeRange.thuAvail.availTime}
+                />
+                <select name="slot" id="slotSelect">
+                  <option value="15">15 min</option>
+                  <option value="30">30 min</option>
+                </select>
+              </>
             )}
           </div>
           <div className="row">
@@ -176,10 +246,13 @@ const Availability = () => {
                 onChange={(value) =>
                   setTimeRange((prevRange) => ({
                     ...prevRange,
-                    friAvail: value,
+                    friAvail: {
+                      ...prevRange.friAvail,
+                      availTime: value,
+                    },
                   }))
                 }
-                value={timeRange.friAvail}
+                value={timeRange.friAvail.availTime}
               />
             )}
           </div>
@@ -202,10 +275,13 @@ const Availability = () => {
                 onChange={(value) =>
                   setTimeRange((prevRange) => ({
                     ...prevRange,
-                    satAvail: value,
+                    satAvail: {
+                      ...prevRange.satAvail,
+                      availTime: value,
+                    },
                   }))
                 }
-                value={timeRange.satAvail}
+                value={timeRange.satAvail.availTime}
               />
             )}
           </div>
@@ -217,12 +293,3 @@ const Availability = () => {
 };
 
 export default Availability;
-
-// satAvail: {}
-// setAvail: {
-// startTime: "",
-// endTime: "",
-// slotDuration:""
-// slots:[{startTime, endTime},{}]
-// numberOfSlots:""
-// }
