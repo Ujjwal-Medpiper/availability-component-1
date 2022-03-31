@@ -6,7 +6,15 @@ import "./Availability.css";
 import "./TimePicker.css";
 
 const Availability = () => {
-  const [timeRange, setTimeRange] = useState([]);
+  const [timeRange, setTimeRange] = useState({
+    sunAvail: "",
+    monAvail: "",
+    tueAvail: "",
+    wedAvail: "",
+    thuAvail: "",
+    friAvail: "",
+    satAvail: "",
+  });
 
   let date = new Date();
   let firstDay = new Date(date.getFullYear(), 0, 1);
@@ -19,31 +27,41 @@ const Availability = () => {
 
   const handleSubmit = () => {
     console.log(weekNo);
+    // console.log(timeRange);
     console.log(timeRange);
   };
 
-  const handleChecked = () => {};
+  const handleChange = (e) => {
+    let name = e.target.name;
+    let checked = e.target.checked;
+    if (checked) {
+      console.log(name);
+    }
+  };
 
   return (
     <IconContext.Provider value={{ size: "1.5em" }}>
       <div className="container">
         Availability
-        <h2>Set Your Available Time</h2>
+        <h2>Set Your Weekly Hours</h2>
         <div className="input-container">
           <div className="row">
             <input
               type="checkbox"
               name="sunday"
-              id="days"
+              id="sunday"
+              className="days"
               disabled={dayNo > 0}
+              onChange={handleChange}
             />
             <label htmlFor="sunday">SUN</label>
             {dayNo > 0 ? (
-              <p>Unavailble</p>
+              <p>Unavailable</p>
             ) : (
               <TimeRangePicker
                 disableClock={true}
                 clearIcon={<FaRegTrashAlt />}
+                value={timeRange.sunAvail}
               />
             )}
           </div>
@@ -51,16 +69,19 @@ const Availability = () => {
             <input
               type="checkbox"
               name="monday"
-              id="days"
+              id="monday"
+              className="days"
+              onChange={handleChange}
               disabled={dayNo > 1}
             />
             <label htmlFor="monday">MON</label>
             {dayNo > 1 ? (
-              <p>Unavailble</p>
+              <p>Unavailable</p>
             ) : (
               <TimeRangePicker
                 disableClock={true}
                 clearIcon={<FaRegTrashAlt />}
+                value={timeRange.monAvail}
               />
             )}
           </div>
@@ -68,16 +89,19 @@ const Availability = () => {
             <input
               type="checkbox"
               name="tuesday"
-              id="days"
+              id="tuesday"
+              className="days"
+              onChange={handleChange}
               disabled={dayNo > 2}
             />
             <label htmlFor="tuesday">TUE</label>
             {dayNo > 2 ? (
-              <p>Unavailble</p>
+              <p>Unavailable</p>
             ) : (
               <TimeRangePicker
                 disableClock={true}
                 clearIcon={<FaRegTrashAlt />}
+                value={timeRange.tueAvail}
               />
             )}
           </div>
@@ -85,18 +109,25 @@ const Availability = () => {
             <input
               type="checkbox"
               name="wednesday"
-              id="days"
+              id="wednesday"
+              className="days"
               disabled={dayNo > 3}
-              onClick={handleChecked}
+              onChange={handleChange}
             />
             <label htmlFor="wednesday">WED</label>
             {dayNo > 3 ? (
-              <p>Unavailble</p>
+              <p>Unavailable</p>
             ) : (
               <TimeRangePicker
                 disableClock={true}
                 clearIcon={<FaRegTrashAlt />}
-                onChange={(value) => setTimeRange(value)}
+                onChange={(value) =>
+                  setTimeRange((prevRange) => ({
+                    ...prevRange,
+                    wedAvail: value,
+                  }))
+                }
+                value={timeRange.wedAvail}
               />
             )}
           </div>
@@ -104,16 +135,25 @@ const Availability = () => {
             <input
               type="checkbox"
               name="thursday"
-              id="days"
+              id="thursday"
+              className="days"
+              onChange={handleChange}
               disabled={dayNo > 4}
             />
             <label htmlFor="thursday">THU</label>
             {dayNo > 4 ? (
-              <p>Unavailble</p>
+              <p>Unavailable</p>
             ) : (
               <TimeRangePicker
                 disableClock={true}
                 clearIcon={<FaRegTrashAlt />}
+                onChange={(value) =>
+                  setTimeRange((prevRange) => ({
+                    ...prevRange,
+                    thuAvail: value,
+                  }))
+                }
+                value={timeRange.thuAvail}
               />
             )}
           </div>
@@ -121,16 +161,25 @@ const Availability = () => {
             <input
               type="checkbox"
               name="friday"
-              id="days"
+              id="friday"
+              className="days"
+              onChange={handleChange}
               disabled={dayNo > 5}
             />
             <label htmlFor="friday">FRI</label>
             {dayNo > 5 ? (
-              <p>Unavailble</p>
+              <p>Unavailable</p>
             ) : (
               <TimeRangePicker
                 disableClock={true}
                 clearIcon={<FaRegTrashAlt />}
+                onChange={(value) =>
+                  setTimeRange((prevRange) => ({
+                    ...prevRange,
+                    friAvail: value,
+                  }))
+                }
+                value={timeRange.friAvail}
               />
             )}
           </div>
@@ -138,16 +187,25 @@ const Availability = () => {
             <input
               type="checkbox"
               name="saturday"
-              id="days"
+              id="saturday"
+              className="days"
+              onChange={handleChange}
               disabled={dayNo > 6}
             />
             <label htmlFor="saturday">SAT</label>
             {dayNo > 6 ? (
-              <p>Unavailble</p>
+              <p>Unavailable</p>
             ) : (
               <TimeRangePicker
                 disableClock={true}
                 clearIcon={<FaRegTrashAlt />}
+                onChange={(value) =>
+                  setTimeRange((prevRange) => ({
+                    ...prevRange,
+                    satAvail: value,
+                  }))
+                }
+                value={timeRange.satAvail}
               />
             )}
           </div>
@@ -159,3 +217,12 @@ const Availability = () => {
 };
 
 export default Availability;
+
+// satAvail: {}
+// setAvail: {
+// startTime: "",
+// endTime: "",
+// slotDuration:""
+// slots:[{startTime, endTime},{}]
+// numberOfSlots:""
+// }
