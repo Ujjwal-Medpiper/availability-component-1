@@ -8,43 +8,50 @@ import "./TimePicker.css";
 const Availability = () => {
   const [timeRange, setTimeRange] = useState({
     sunAvail: {
-      availTime: "",
+      timeRange: "",
+      noOfMinsInTimeRange: "",
       slotDuration: "",
       noOfSlots: "",
       slots: [],
     },
     monAvail: {
-      availTime: "",
+      timeRange: "",
+      noOfMinsInTimeRange: "",
       slotDuration: "",
       noOfSlots: "",
       slots: [],
     },
     tueAvail: {
-      availTime: "",
+      timeRange: "",
+      noOfMinsInTimeRange: "",
       slotDuration: "",
       noOfSlots: "",
       slots: [],
     },
     wedAvail: {
-      availTime: "",
+      timeRange: "",
+      noOfMinsInTimeRange: "",
       slotDuration: "",
       noOfSlots: "",
       slots: [],
     },
     thuAvail: {
-      availTime: "",
-      slotDuration: "15",
+      timeRange: "",
+      noOfMinsInTimeRange: "",
+      slotDuration: "",
       noOfSlots: "",
       slots: [],
     },
     friAvail: {
-      availTime: "",
+      timeRange: "",
+      noOfMinsInTimeRange: "",
       slotDuration: "",
       noOfSlots: "",
       slots: [],
     },
     satAvail: {
-      availTime: "",
+      timeRange: "",
+      noOfMinsInTimeRange: "",
       slotDuration: "",
       noOfSlots: "",
       slots: [],
@@ -62,7 +69,6 @@ const Availability = () => {
 
   const handleSubmit = () => {
     console.log(weekNo);
-    // console.log(timeRange);
     console.log(timeRange);
   };
 
@@ -74,13 +80,13 @@ const Availability = () => {
     }
   };
 
-  const slotTime = (start, end) => {
+  const calculateSlotTime = (start, end) => {
     if (start && end) {
       let hr = (parseInt(end.slice(0, 2)) - parseInt(start.slice(0, 2))) * 60;
       let min = parseInt(end.slice(3)) - parseInt(start.slice(3));
       var total = hr + min;
-      // return total;
-      return console.log(total);
+      return total;
+      // return console.log(total);
     }
   };
 
@@ -183,11 +189,11 @@ const Availability = () => {
                     ...prevRange,
                     wedAvail: {
                       ...prevRange.wedAvail,
-                      availTime: value,
+                      timeRange: value,
                     },
                   }))
                 }
-                value={timeRange.wedAvail.availTime}
+                value={timeRange.wedAvail.timeRange}
               />
             )}
           </div>
@@ -213,14 +219,34 @@ const Availability = () => {
                       ...prevRange,
                       thuAvail: {
                         ...prevRange.thuAvail,
-                        availTime: value,
+                        timeRange: value,
+                        noOfMinsInTimeRange: calculateSlotTime(
+                          value[0],
+                          value[1]
+                        ),
                       },
                     }));
-                    slotTime(value[0], value[1]);
                   }}
-                  value={timeRange.thuAvail.availTime}
+                  value={timeRange.thuAvail.timeRange}
                 />
-                <select name="slot" id="slotSelect">
+                <select
+                  name="slot"
+                  id="slotSelect"
+                  value={timeRange.thuAvail.slotDuration}
+                  onChange={(e) => {
+                    setTimeRange((prevRange) => ({
+                      ...prevRange,
+                      thuAvail: {
+                        ...prevRange.thuAvail,
+                        slotDuration: e.target.value,
+                        noOfSlots:
+                          prevRange.thuAvail.noOfMinsInTimeRange /
+                          e.target.value,
+                      },
+                    }));
+                  }}
+                >
+                  <option value="">Select Duration</option>
                   <option value="15">15 min</option>
                   <option value="30">30 min</option>
                 </select>
@@ -248,11 +274,11 @@ const Availability = () => {
                     ...prevRange,
                     friAvail: {
                       ...prevRange.friAvail,
-                      availTime: value,
+                      timeRange: value,
                     },
                   }))
                 }
-                value={timeRange.friAvail.availTime}
+                value={timeRange.friAvail.timeRange}
               />
             )}
           </div>
@@ -277,11 +303,11 @@ const Availability = () => {
                     ...prevRange,
                     satAvail: {
                       ...prevRange.satAvail,
-                      availTime: value,
+                      timeRange: value,
                     },
                   }))
                 }
-                value={timeRange.satAvail.availTime}
+                value={timeRange.satAvail.timeRange}
               />
             )}
           </div>
