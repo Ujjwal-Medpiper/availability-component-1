@@ -36,7 +36,7 @@ const Availability = () => {
     },
     thuAvail: {
       availTime: "",
-      slotDuration: "15",
+      slotDuration: "",
       noOfSlots: "",
       slots: [],
     },
@@ -56,13 +56,13 @@ const Availability = () => {
 
   useEffect(() => {
     if (
-      timeRange.sunAvail.availTime == "" &&
-      timeRange.monAvail.availTime == "" &&
-      timeRange.tueAvail.availTime == "" &&
-      timeRange.wedAvail.availTime == "" &&
-      timeRange.thuAvail.availTime == "" &&
-      timeRange.friAvail.availTime == "" &&
-      timeRange.satAvail.availTime == ""
+      timeRange.sunAvail.availTime == undefined &&
+      timeRange.monAvail.availTime == undefined &&
+      timeRange.tueAvail.availTime == undefined &&
+      timeRange.wedAvail.availTime == undefined &&
+      timeRange.thuAvail.availTime == undefined &&
+      timeRange.friAvail.availTime == undefined &&
+      timeRange.satAvail.availTime == undefined
     ) {
       setButtonDisabled(true);
     } else {
@@ -113,15 +113,13 @@ const Availability = () => {
     "/" +
     lastWeekDay.getFullYear();
 
-  console.log(lastWeekDay);
   const handleSubmit = () => {
     console.log(weekNo);
-    // console.log(timeRange);
     console.log(timeRange);
   };
 
   const handleChange = (e) => {
-    let name = e.target.name;
+    // let name = e.target.name;
     let checked = e.target.checked;
     if (!checked) {
       setSelected(false);
@@ -188,6 +186,7 @@ const Availability = () => {
                   value={timeRange.monAvail}
                 />
                 <select name="slot" id="slotSelect">
+                  <option value="">Select Slot</option>
                   <option value="15">15 min</option>
                   <option value="30">30 min</option>
                 </select>
@@ -214,6 +213,7 @@ const Availability = () => {
                   value={timeRange.tueAvail}
                 />
                 <select name="slot" id="slotSelect">
+                  <option value="">Select Slot</option>
                   <option value="15">15 min</option>
                   <option value="30">30 min</option>
                 </select>
@@ -280,6 +280,7 @@ const Availability = () => {
                   value={timeRange.thuAvail.availTime}
                 />
                 <select name="slot" id="slotSelect">
+                  <option value="">Select Slot</option>
                   <option value="15">15 min</option>
                   <option value="30">30 min</option>
                 </select>
@@ -299,20 +300,28 @@ const Availability = () => {
             {dayNo > 5 || !selected ? (
               <p>Unavailable</p>
             ) : (
-              <TimeRangePicker
-                disableClock={true}
-                clearIcon={<FaRegTrashAlt />}
-                onChange={(value) =>
-                  setTimeRange((prevRange) => ({
-                    ...prevRange,
-                    friAvail: {
-                      ...prevRange.friAvail,
-                      availTime: value,
-                    },
-                  }))
-                }
-                value={timeRange.friAvail.availTime}
-              />
+              <>
+                <TimeRangePicker
+                  disableClock={true}
+                  clearIcon={<FaRegTrashAlt />}
+                  onChange={(value) => {
+                    setTimeRange((prevRange) => ({
+                      ...prevRange,
+                      friAvail: {
+                        ...prevRange.friAvail,
+                        availTime: value,
+                      },
+                    }));
+                    slotTime(value[0], value[1]);
+                  }}
+                  value={timeRange.friAvail.availTime}
+                />
+                <select name="slot" id="slotSelect">
+                  <option value="">Select Slot</option>
+                  <option value="15">15 min</option>
+                  <option value="30">30 min</option>
+                </select>
+              </>
             )}
           </div>
           <div className="row">
@@ -328,20 +337,27 @@ const Availability = () => {
             {dayNo > 6 ? (
               <p>Unavailable</p>
             ) : (
-              <TimeRangePicker
-                disableClock={true}
-                clearIcon={<FaRegTrashAlt />}
-                onChange={(value) =>
-                  setTimeRange((prevRange) => ({
-                    ...prevRange,
-                    satAvail: {
-                      ...prevRange.satAvail,
-                      availTime: value,
-                    },
-                  }))
-                }
-                value={timeRange.satAvail.availTime}
-              />
+              <>
+                <TimeRangePicker
+                  disableClock={true}
+                  clearIcon={<FaRegTrashAlt />}
+                  onChange={(value) =>
+                    setTimeRange((prevRange) => ({
+                      ...prevRange,
+                      satAvail: {
+                        ...prevRange.satAvail,
+                        availTime: value,
+                      },
+                    }))
+                  }
+                  value={timeRange.satAvail.availTime}
+                />
+                <select name="slot" id="slotSelect">
+                  <option value="">Select Slot</option>
+                  <option value="15">15 min</option>
+                  <option value="30">30 min</option>
+                </select>
+              </>
             )}
           </div>
           <button
