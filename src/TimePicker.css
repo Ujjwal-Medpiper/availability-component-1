@@ -93,6 +93,7 @@
 .react-timerange-picker__button svg {
   display: inherit;
   margin-left: 15px;
+  display: none;
 }
 
 .react-timerange-picker__range-divider {

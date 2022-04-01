@@ -94,26 +94,26 @@ const Availability = () => {
 
   let dayNo = date.getDay();
 
-  let first = date.getDate() - dayNo;
-  let last = first + 6;
+  let first = date.getDate() - date.getDay();
 
   let firstWeekDay = new Date(date.setDate(first));
-  let lastWeekDay = new Date(date.setDate(last));
+  let lastWeekDay = new Date(date.setDate(date.getDate() + 6));
 
   let weekFirstDate =
     firstWeekDay.getDate() +
     "/" +
-    firstWeekDay.getMonth() +
+    (firstWeekDay.getMonth() + 1) +
     "/" +
     firstWeekDay.getFullYear();
 
   let weekLastDate =
     lastWeekDay.getDate() +
     "/" +
-    lastWeekDay.getMonth() +
+    (lastWeekDay.getMonth() + 1) +
     "/" +
     lastWeekDay.getFullYear();
 
+  console.log(lastWeekDay);
   const handleSubmit = () => {
     console.log(weekNo);
     // console.log(timeRange);
@@ -344,12 +344,14 @@ const Availability = () => {
               />
             )}
           </div>
-          <input
+          <button
             type="submit"
             value="Submit"
             onClick={handleSubmit}
             disabled={buttonDisabled}
-          />
+          >
+            Submit
+          </button>
         </div>
       </div>
     </IconContext.Provider>
