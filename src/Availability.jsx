@@ -70,21 +70,6 @@ const Availability = () => {
     }
   }, [timeRange]);
 
-  const monthName = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   let date = new Date();
   let firstDay = new Date(date.getFullYear(), 0, 1);
   // calculating number of days in given year before a given date
