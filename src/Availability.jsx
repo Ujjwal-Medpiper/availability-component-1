@@ -68,6 +68,25 @@ const Availability = () => {
 
   let dayNo = date.getDay();
 
+  let first = date.getDate() - date.getDay();
+
+  let firstWeekDay = new Date(date.setDate(first));
+  let lastWeekDay = new Date(date.setDate(date.getDate() + 6));
+
+  let weekFirstDate =
+    firstWeekDay.getDate() +
+    "/" +
+    (firstWeekDay.getMonth() + 1) +
+    "/" +
+    firstWeekDay.getFullYear();
+
+  let weekLastDate =
+    lastWeekDay.getDate() +
+    "/" +
+    (lastWeekDay.getMonth() + 1) +
+    "/" +
+    lastWeekDay.getFullYear();
+
   const handleSubmit = () => {
     console.log(weekNo);
     console.log(timeRange);
@@ -114,7 +133,9 @@ const Availability = () => {
     <IconContext.Provider value={{ size: "1.5em" }}>
       <div className="container">
         Availability
-        <h2>Set Your Weekly Hours</h2>
+        <h2>
+          Set Your Weekly Hours from {weekFirstDate} to {weekLastDate}
+        </h2>
         <div className="input-container">
           <div className="row">
             <input
