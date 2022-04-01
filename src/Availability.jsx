@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from "moment";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import TimeRangePicker from "@wojtekmaj/react-timerange-picker/dist/entry.nostyle";
@@ -89,6 +90,25 @@ const Availability = () => {
       // return console.log(total);
     }
   };
+
+  const getTimeSlots = (start, end, slotDuration) => {
+    let startTime = moment(start, "HH:mm");
+    let endTime = moment(end, "HH:mm");
+
+    let slots = [];
+
+    while (startTime < endTime) {
+      let obj = {
+        slotStart: startTime.format("HH:mm"),
+        slotEnd: startTime.add(slotDuration, "minutes").format("HH:mm"),
+      };
+      slots.push(obj);
+    }
+    return slots;
+  };
+
+  // let timeSlots = getTimeSlots("11:00", "21:00", 30);
+  // console.log(timeSlots);
 
   return (
     <IconContext.Provider value={{ size: "1.5em" }}>
@@ -224,6 +244,11 @@ const Availability = () => {
                           value[0],
                           value[1]
                         ),
+                        slots: getTimeSlots(
+                          value[0],
+                          value[1],
+                          prevRange.thuAvail.slotDuration
+                        ),
                       },
                     }));
                   }}
@@ -242,6 +267,11 @@ const Availability = () => {
                         noOfSlots:
                           prevRange.thuAvail.noOfMinsInTimeRange /
                           e.target.value,
+                        slots: getTimeSlots(
+                          timeRange.thuAvail.timeRange[0],
+                          timeRange.thuAvail.timeRange[1],
+                          e.target.value
+                        ),
                       },
                     }));
                   }}
@@ -266,20 +296,54 @@ const Availability = () => {
             {dayNo > 5 ? (
               <p>Unavailable</p>
             ) : (
-              <TimeRangePicker
-                disableClock={true}
-                clearIcon={<FaRegTrashAlt />}
-                onChange={(value) =>
-                  setTimeRange((prevRange) => ({
-                    ...prevRange,
-                    friAvail: {
-                      ...prevRange.friAvail,
-                      timeRange: value,
-                    },
-                  }))
-                }
-                value={timeRange.friAvail.timeRange}
-              />
+              <>
+                <TimeRangePicker
+                  disableClock={true}
+                  clearIcon={<FaRegTrashAlt />}
+                  onChange={(value) => {
+                    setTimeRange((prevRange) => ({
+                      ...prevRange,
+                      friAvail: {
+                        ...prevRange.friAvail,
+                        timeRange: value,
+                        noOfMinsInTimeRange: calculateSlotTime(
+                          value[0],
+                          value[1]
+                        ),
+                        // slots: getTimeSlots(value[0], value[1], 15),
+                      },
+                    }));
+                  }}
+                  value={timeRange.friAvail.timeRange}
+                />
+                <select
+                  name="slot"
+                  id="slotSelect"
+                  value={timeRange.friAvail.slotDuration}
+                  onChange={(e) => {
+                    setTimeRange((prevRange) => ({
+                      ...prevRange,
+                      friAvail: {
+                        ...prevRange.friAvail,
+                        slotDuration: e.target.value,
+                        noOfSlots: Math.floor(
+                          prevRange.friAvail.noOfMinsInTimeRange /
+                            e.target.value
+                        ),
+                        slots: getTimeSlots(
+                          timeRange.friAvail.timeRange[0],
+                          timeRange.friAvail.timeRange[1],
+                          e.target.value
+                        ),
+                      },
+                    }));
+                  }}
+                >
+                  <option value="">Select Duration</option>
+                  <option value="15">15 min</option>
+                  <option value="30">30 min</option>
+                </select>
+              </>
             )}
           </div>
           <div className="row">
@@ -295,20 +359,48 @@ const Availability = () => {
             {dayNo > 6 ? (
               <p>Unavailable</p>
             ) : (
-              <TimeRangePicker
-                disableClock={true}
-                clearIcon={<FaRegTrashAlt />}
-                onChange={(value) =>
-                  setTimeRange((prevRange) => ({
-                    ...prevRange,
-                    satAvail: {
-                      ...prevRange.satAvail,
-                      timeRange: value,
-                    },
-                  }))
-                }
-                value={timeRange.satAvail.timeRange}
-              />
+              <>
+                <TimeRangePicker
+                  disableClock={true}
+                  clearIcon={<FaRegTrashAlt />}
+                  onChange={(value) => {
+                    setTimeRange((prevRange) => ({
+                      ...prevRange,
+                      satAvail: {
+                        ...prevRange.satAvail,
+                        timeRange: value,
+                        noOfMinsInTimeRange: calculateSlotTime(
+                          value[0],
+                          value[1]
+                        ),
+                      },
+                    }));
+                  }}
+                  value={timeRange.satAvail.timeRange}
+                />
+                <select
+                  name="slot"
+                  id="slotSelect"
+                  value={timeRange.satAvail.slotDuration}
+                  onChange={(e) => {
+                    setTimeRange((prevRange) => ({
+                      ...prevRange,
+                      satAvail: {
+                        ...prevRange.satAvail,
+                        slotDuration: e.target.value,
+                        noOfSlots: Math.floor(
+                          prevRange.satAvail.noOfMinsInTimeRange /
+                            e.target.value
+                        ),
+                      },
+                    }));
+                  }}
+                >
+                  <option value="">Select Duration</option>
+                  <option value="15">15 min</option>
+                  <option value="30">30 min</option>
+                </select>
+              </>
             )}
           </div>
           <input type="submit" value="Submit" onClick={handleSubmit} />
