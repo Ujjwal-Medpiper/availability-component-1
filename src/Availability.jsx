@@ -285,9 +285,10 @@ const Availability = () => {
                       sunAvail: {
                         ...prevRange.sunAvail,
                         slotDuration: e.target.value,
-                        noOfSlots:
+                        noOfSlots: Math.ceil(
                           prevRange.sunAvail.noOfMinsInTimeRange /
-                          e.target.value,
+                            e.target.value
+                        ),
                         slots: getTimeSlots(
                           timeRange.sunAvail.timeRange[0],
                           timeRange.sunAvail.timeRange[1],
@@ -368,9 +369,10 @@ const Availability = () => {
                       monAvail: {
                         ...prevRange.monAvail,
                         slotDuration: e.target.value,
-                        noOfSlots:
+                        noOfSlots: Math.ceil(
                           prevRange.monAvail.noOfMinsInTimeRange /
-                          e.target.value,
+                            e.target.value
+                        ),
                         slots: getTimeSlots(
                           timeRange.monAvail.timeRange[0],
                           timeRange.monAvail.timeRange[1],
@@ -533,9 +535,10 @@ const Availability = () => {
                       wedAvail: {
                         ...prevRange.wedAvail,
                         slotDuration: e.target.value,
-                        noOfSlots:
+                        noOfSlots: Math.ceil(
                           prevRange.wedAvail.noOfMinsInTimeRange /
-                          e.target.value,
+                            e.target.value
+                        ),
                         slots: getTimeSlots(
                           timeRange.wedAvail.timeRange[0],
                           timeRange.wedAvail.timeRange[1],
@@ -615,9 +618,10 @@ const Availability = () => {
                       thuAvail: {
                         ...prevRange.thuAvail,
                         slotDuration: e.target.value,
-                        noOfSlots:
+                        noOfSlots: Math.ceil(
                           prevRange.thuAvail.noOfMinsInTimeRange /
-                          e.target.value,
+                            e.target.value
+                        ),
                         slots: getTimeSlots(
                           timeRange.thuAvail.timeRange[0],
                           timeRange.thuAvail.timeRange[1],
@@ -780,7 +784,7 @@ const Availability = () => {
                       satAvail: {
                         ...prevRange.satAvail,
                         slotDuration: e.target.value,
-                        noOfSlots: Math.floor(
+                        noOfSlots: Math.ceil(
                           prevRange.satAvail.noOfMinsInTimeRange /
                             e.target.value
                         ),
