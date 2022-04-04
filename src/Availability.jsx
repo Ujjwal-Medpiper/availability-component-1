@@ -20,7 +20,7 @@ const Availability = () => {
     },
     monAvail: {
       selected: true,
-      timeRange: "",
+      timeRange: [],
       noOfMinsInTimeRange: "",
       slotDuration: "",
       noOfSlots: "",
@@ -134,6 +134,20 @@ const Availability = () => {
           key={pickerList.length}
           disableClock={true}
           clearIcon={""}
+          value={timeRange.monAvail.timeRange[pickerList.length + 1]}
+          onChange={(value) =>
+            setTimeRange((prevRange) => ({
+              ...prevRange,
+              monAvail: {
+                ...prevRange.monAvail,
+                timeRange: {
+                  ...prevRange.monAvail.timeRange,
+                  timeRange: getTimeRange(value[0], value[1]),
+                },
+                noOfMinsInTimeRange: calculateSlotTime(value[0], value[1]),
+              },
+            }))
+          }
         />
       )
     );
@@ -141,6 +155,13 @@ const Availability = () => {
 
   const handleDelete = () => {
     setPickerList(pickerList.slice(0, pickerList.length - 1));
+  };
+
+  const getTimeRange = (start, end) => {
+    let timeRange = [];
+    let time = [start, end];
+    timeRange.push(time);
+    return timeRange;
   };
 
   return (
@@ -274,7 +295,7 @@ const Availability = () => {
             ) : (
               <>
                 <div className="time-picker-container">
-                  {/* <TimeRangePicker
+                  <TimeRangePicker
                     disableClock={true}
                     clearIcon={""}
                     onChange={(value) =>
@@ -282,7 +303,7 @@ const Availability = () => {
                         ...prevRange,
                         monAvail: {
                           ...prevRange.monAvail,
-                          timeRange: value,
+                          timeRange: getTimeRange(value[0], value[1]),
                           noOfMinsInTimeRange: calculateSlotTime(
                             value[0],
                             value[1]
@@ -290,8 +311,8 @@ const Availability = () => {
                         },
                       }))
                     }
-                    value={timeRange.monAvail.timeRange}
-                  /> */}
+                    value={timeRange.monAvail.timeRange[0]}
+                  />
                   {pickerList}
                 </div>
                 <MdAddCircleOutline onClick={addTimePicker} />
