@@ -28,7 +28,7 @@ const Availability = () => {
     },
     tueAvail: {
       selected: true,
-      timeRange: "",
+      timeRange: [],
       noOfMinsInTimeRange: "",
       slotDuration: "",
       noOfSlots: "",
@@ -127,24 +127,20 @@ const Availability = () => {
     return slots;
   };
 
-  const addTimePicker = (e) => {
-    // let container = document.getElementById("timepicker-container");
-    // let picker = <TimeRangePicker value={11} />;
-    // container.append(picker);
+  const addTimePicker = () => {
     setPickerList(
       pickerList.concat(
-        <>
-          <div className="picker-container">
-            <TimeRangePicker
-              key={pickerList.length}
-              disableClock={true}
-              clearIcon={""}
-            />
-            <FaRegTrashAlt />
-          </div>
-        </>
+        <TimeRangePicker
+          key={pickerList.length}
+          disableClock={true}
+          clearIcon={""}
+        />
       )
     );
+  };
+
+  const handleDelete = () => {
+    setPickerList(pickerList.slice(0, pickerList.length - 1));
   };
 
   return (
@@ -299,6 +295,12 @@ const Availability = () => {
                   {pickerList}
                 </div>
                 <MdAddCircleOutline onClick={addTimePicker} />
+                {pickerList.length > 0 ? (
+                  <FaRegTrashAlt onClick={handleDelete} />
+                ) : (
+                  ""
+                )}
+
                 <select
                   name="slot"
                   id="slotSelect"
@@ -368,7 +370,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) =>
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -454,7 +456,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) =>
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -539,7 +541,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) => {
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -624,7 +626,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) => {
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -710,7 +712,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) => {
                     setTimeRange((prevRange) => ({
                       ...prevRange,
