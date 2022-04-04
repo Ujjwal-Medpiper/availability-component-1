@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import moment from "moment";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { MdAddCircleOutline } from "react-icons/md";
 import { IconContext } from "react-icons";
 import TimeRangePicker from "@wojtekmaj/react-timerange-picker/dist/entry.nostyle";
 import "./Availability.css";
 import "./TimePicker.css";
 
 const Availability = () => {
+  const [pickerList, setPickerList] = useState([]);
   const [timeRange, setTimeRange] = useState({
     sunAvail: {
       selected: true,
@@ -125,6 +127,26 @@ const Availability = () => {
     return slots;
   };
 
+  const addTimePicker = (e) => {
+    // let container = document.getElementById("timepicker-container");
+    // let picker = <TimeRangePicker value={11} />;
+    // container.append(picker);
+    setPickerList(
+      pickerList.concat(
+        <>
+          <div className="picker-container">
+            <TimeRangePicker
+              key={pickerList.length}
+              disableClock={true}
+              clearIcon={""}
+            />
+            <FaRegTrashAlt />
+          </div>
+        </>
+      )
+    );
+  };
+
   return (
     <IconContext.Provider value={{ size: "1.5em" }}>
       <div className="container">
@@ -172,7 +194,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) =>
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -255,24 +277,28 @@ const Availability = () => {
               <p>Unavailable</p>
             ) : (
               <>
-                <TimeRangePicker
-                  disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
-                  onChange={(value) =>
-                    setTimeRange((prevRange) => ({
-                      ...prevRange,
-                      monAvail: {
-                        ...prevRange.monAvail,
-                        timeRange: value,
-                        noOfMinsInTimeRange: calculateSlotTime(
-                          value[0],
-                          value[1]
-                        ),
-                      },
-                    }))
-                  }
-                  value={timeRange.monAvail.timeRange}
-                />
+                <div className="time-picker-container">
+                  {/* <TimeRangePicker
+                    disableClock={true}
+                    clearIcon={""}
+                    onChange={(value) =>
+                      setTimeRange((prevRange) => ({
+                        ...prevRange,
+                        monAvail: {
+                          ...prevRange.monAvail,
+                          timeRange: value,
+                          noOfMinsInTimeRange: calculateSlotTime(
+                            value[0],
+                            value[1]
+                          ),
+                        },
+                      }))
+                    }
+                    value={timeRange.monAvail.timeRange}
+                  /> */}
+                  {pickerList}
+                </div>
+                <MdAddCircleOutline onClick={addTimePicker} />
                 <select
                   name="slot"
                   id="slotSelect"
