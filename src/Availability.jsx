@@ -140,10 +140,7 @@ const Availability = () => {
               ...prevRange,
               monAvail: {
                 ...prevRange.monAvail,
-                timeRange: {
-                  ...prevRange.monAvail.timeRange,
-                  timeRange: getTimeRange(value[0], value[1]),
-                },
+                timeRange: getTimeRange(value[0], value[1]),
                 noOfMinsInTimeRange: calculateSlotTime(value[0], value[1]),
               },
             }))
