@@ -9,6 +9,7 @@ import "./TimePicker.css";
 const Availability = () => {
   const [timeRange, setTimeRange] = useState({
     sunAvail: {
+      selected: true,
       timeRange: "",
       noOfMinsInTimeRange: "",
       slotDuration: "",
@@ -16,6 +17,7 @@ const Availability = () => {
       slots: [],
     },
     monAvail: {
+      selected: true,
       timeRange: "",
       noOfMinsInTimeRange: "",
       slotDuration: "",
@@ -23,6 +25,7 @@ const Availability = () => {
       slots: [],
     },
     tueAvail: {
+      selected: true,
       timeRange: "",
       noOfMinsInTimeRange: "",
       slotDuration: "",
@@ -30,6 +33,7 @@ const Availability = () => {
       slots: [],
     },
     wedAvail: {
+      selected: true,
       timeRange: "",
       noOfMinsInTimeRange: "",
       slotDuration: "",
@@ -37,6 +41,7 @@ const Availability = () => {
       slots: [],
     },
     thuAvail: {
+      selected: true,
       timeRange: "",
       noOfMinsInTimeRange: "",
       slotDuration: "",
@@ -44,6 +49,7 @@ const Availability = () => {
       slots: [],
     },
     friAvail: {
+      selected: true,
       timeRange: "",
       noOfMinsInTimeRange: "",
       slotDuration: "",
@@ -51,6 +57,7 @@ const Availability = () => {
       slots: [],
     },
     satAvail: {
+      selected: true,
       timeRange: "",
       noOfMinsInTimeRange: "",
       slotDuration: "",
@@ -92,14 +99,6 @@ const Availability = () => {
     console.log(timeRange);
   };
 
-  const handleChange = (e) => {
-    let name = e.target.name;
-    let checked = e.target.checked;
-    if (checked) {
-      console.log(name);
-    }
-  };
-
   const calculateSlotTime = (start, end) => {
     if (start && end) {
       let hr = (parseInt(end.slice(0, 2)) - parseInt(start.slice(0, 2))) * 60;
@@ -126,9 +125,6 @@ const Availability = () => {
     return slots;
   };
 
-  // let timeSlots = getTimeSlots("11:00", "21:00", 30);
-  // console.log(timeSlots);
-
   return (
     <IconContext.Provider value={{ size: "1.5em" }}>
       <div className="container">
@@ -144,10 +140,33 @@ const Availability = () => {
               id="sunday"
               className="days"
               disabled={dayNo > 0}
-              onChange={handleChange}
+              onChange={(e) => {
+                let checked = e.target.checked;
+                if (checked) {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      sunAvail: {
+                        ...prevState.sunAvail,
+                        selected: true,
+                      },
+                    };
+                  });
+                } else {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      sunAvail: {
+                        ...prevState.sunAvail,
+                        selected: false,
+                      },
+                    };
+                  });
+                }
+              }}
             />
             <label htmlFor="sunday">SUN</label>
-            {dayNo > 0 ? (
+            {dayNo > 0 || !timeRange.sunAvail.selected ? (
               <p>Unavailable</p>
             ) : (
               <>
@@ -204,11 +223,35 @@ const Availability = () => {
               name="monday"
               id="monday"
               className="days"
-              onChange={handleChange}
+              checked={timeRange.monAvail.selected}
+              onChange={(e) => {
+                let checked = e.target.checked;
+                if (checked) {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      monAvail: {
+                        ...prevState.monAvail,
+                        selected: true,
+                      },
+                    };
+                  });
+                } else {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      monAvail: {
+                        ...prevState.monAvail,
+                        selected: false,
+                      },
+                    };
+                  });
+                }
+              }}
               disabled={dayNo > 1}
             />
             <label htmlFor="monday">MON</label>
-            {dayNo > 1 ? (
+            {dayNo > 1 || !timeRange.monAvail.selected ? (
               <p>Unavailable</p>
             ) : (
               <>
@@ -265,11 +308,35 @@ const Availability = () => {
               name="tuesday"
               id="tuesday"
               className="days"
-              onChange={handleChange}
+              checked={timeRange.tueAvail.selected}
+              onChange={(e) => {
+                let checked = e.target.checked;
+                if (checked) {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      tueAvail: {
+                        ...prevState.tueAvail,
+                        selected: true,
+                      },
+                    };
+                  });
+                } else {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      tueAvail: {
+                        ...prevState.tueAvail,
+                        selected: false,
+                      },
+                    };
+                  });
+                }
+              }}
               disabled={dayNo > 2}
             />
             <label htmlFor="tuesday">TUE</label>
-            {dayNo > 2 ? (
+            {dayNo > 2 || !timeRange.tueAvail.selected ? (
               <p>Unavailable</p>
             ) : (
               <>
@@ -301,9 +368,10 @@ const Availability = () => {
                       tueAvail: {
                         ...prevRange.tueAvail,
                         slotDuration: e.target.value,
-                        noOfSlots:
+                        noOfSlots: Math.ceil(
                           prevRange.tueAvail.noOfMinsInTimeRange /
-                          e.target.value,
+                            e.target.value
+                        ),
                         slots: getTimeSlots(
                           timeRange.tueAvail.timeRange[0],
                           timeRange.tueAvail.timeRange[1],
@@ -326,11 +394,35 @@ const Availability = () => {
               name="wednesday"
               id="wednesday"
               className="days"
+              checked={timeRange.wedAvail.selected}
               disabled={dayNo > 3}
-              onChange={handleChange}
+              onChange={(e) => {
+                let checked = e.target.checked;
+                if (checked) {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      wedAvail: {
+                        ...prevState.wedAvail,
+                        selected: true,
+                      },
+                    };
+                  });
+                } else {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      wedAvail: {
+                        ...prevState.wedAvail,
+                        selected: false,
+                      },
+                    };
+                  });
+                }
+              }}
             />
             <label htmlFor="wednesday">WED</label>
-            {dayNo > 3 ? (
+            {dayNo > 3 || !timeRange.wedAvail.selected ? (
               <p>Unavailable</p>
             ) : (
               <>
@@ -387,11 +479,35 @@ const Availability = () => {
               name="thursday"
               id="thursday"
               className="days"
-              onChange={handleChange}
+              checked={timeRange.thuAvail.selected}
+              onChange={(e) => {
+                let checked = e.target.checked;
+                if (checked) {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      thuAvail: {
+                        ...prevState.thuAvail,
+                        selected: true,
+                      },
+                    };
+                  });
+                } else {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      thuAvail: {
+                        ...prevState.thuAvail,
+                        selected: false,
+                      },
+                    };
+                  });
+                }
+              }}
               disabled={dayNo > 4}
             />
             <label htmlFor="thursday">THU</label>
-            {dayNo > 4 ? (
+            {dayNo > 4 || !timeRange.thuAvail.selected ? (
               <p>Unavailable</p>
             ) : (
               <>
@@ -448,11 +564,35 @@ const Availability = () => {
               name="friday"
               id="friday"
               className="days"
-              onChange={handleChange}
+              checked={timeRange.friAvail.selected}
+              onChange={(e) => {
+                let checked = e.target.checked;
+                if (checked) {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      friAvail: {
+                        ...prevState.friAvail,
+                        selected: true,
+                      },
+                    };
+                  });
+                } else {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      friAvail: {
+                        ...prevState.friAvail,
+                        selected: false,
+                      },
+                    };
+                  });
+                }
+              }}
               disabled={dayNo > 5}
             />
             <label htmlFor="friday">FRI</label>
-            {dayNo > 5 ? (
+            {dayNo > 5 || !timeRange.friAvail.selected ? (
               <p>Unavailable</p>
             ) : (
               <>
@@ -510,11 +650,35 @@ const Availability = () => {
               name="saturday"
               id="saturday"
               className="days"
-              onChange={handleChange}
+              checked={timeRange.satAvail.selected}
+              onChange={(e) => {
+                let checked = e.target.checked;
+                if (checked) {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      satAvail: {
+                        ...prevState.satAvail,
+                        selected: true,
+                      },
+                    };
+                  });
+                } else {
+                  setTimeRange((prevState) => {
+                    return {
+                      ...prevState,
+                      satAvail: {
+                        ...prevState.satAvail,
+                        selected: false,
+                      },
+                    };
+                  });
+                }
+              }}
               disabled={dayNo > 6}
             />
             <label htmlFor="saturday">SAT</label>
-            {dayNo > 6 ? (
+            {dayNo > 6 || !timeRange.satAvail.selected ? (
               <p>Unavailable</p>
             ) : (
               <>
