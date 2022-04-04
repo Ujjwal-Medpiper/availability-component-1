@@ -101,6 +101,8 @@ const Availability = () => {
     console.log(timeRange);
   };
 
+  console.log(pickerList.length);
+
   const calculateSlotTime = (start, end) => {
     if (start && end) {
       let hr = (parseInt(end.slice(0, 2)) - parseInt(start.slice(0, 2))) * 60;
@@ -128,27 +130,31 @@ const Availability = () => {
   };
 
   const addTimePicker = () => {
-    setPickerList(
-      pickerList.concat(
-        <TimeRangePicker
-          key={pickerList.length}
-          disableClock={true}
-          clearIcon={""}
-          value={timeRange.monAvail.timeRange[pickerList.length + 1]}
-          onChange={(value) =>
-            setTimeRange((prevRange) => ({
-              ...prevRange,
-              monAvail: {
-                ...prevRange.monAvail,
-                timeRange: getTimeRange(value[0], value[1]),
-                noOfMinsInTimeRange: calculateSlotTime(value[0], value[1]),
-              },
-            }))
-          }
-        />
-      )
-    );
+    setPickerList((prev) => [
+      ...prev,
+      <TimeRangePicker
+        key={pickerList.length}
+        disableClock={true}
+        clearIcon={""}
+        value={timeRange.monAvail.timeRange[pickerList.length + 1]}
+        onChange={(value) =>
+          setTimeRange((prevRange) => ({
+            ...prevRange,
+            monAvail: {
+              ...prevRange.monAvail,
+              timeRange: [
+                ...prevRange.monAvail.timeRange,
+                Array(value[0], value[1]),
+              ],
+              noOfMinsInTimeRange: calculateSlotTime(value[0], value[1]),
+            },
+          }))
+        }
+      />,
+    ]);
   };
+
+  // setPicketList(prev => [...prev, new value])
 
   const handleDelete = () => {
     setPickerList(pickerList.slice(0, pickerList.length - 1));
@@ -295,7 +301,7 @@ const Availability = () => {
                   <TimeRangePicker
                     disableClock={true}
                     clearIcon={""}
-                    onChange={(value) =>
+                    onChange={(value) => {
                       setTimeRange((prevRange) => ({
                         ...prevRange,
                         monAvail: {
@@ -306,8 +312,9 @@ const Availability = () => {
                             value[1]
                           ),
                         },
-                      }))
-                    }
+                      }));
+                      console.log(value);
+                    }}
                     value={timeRange.monAvail.timeRange[0]}
                   />
                   {pickerList}
