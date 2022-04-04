@@ -9,7 +9,7 @@ import "./TimePicker.css";
 const Availability = () => {
   const [timeRange, setTimeRange] = useState({
     sunAvail: {
-      selected: true,
+      selected: false,
       timeRange: "",
       noOfMinsInTimeRange: "",
       slotDuration: "",
@@ -66,6 +66,69 @@ const Availability = () => {
     },
   });
 
+  const emptySunAvail = {
+    selected: false,
+    timeRange: "",
+    noOfMinsInTimeRange: "",
+    slotDuration: "",
+    noOfSlots: "",
+    slots: [],
+  };
+
+  const emptyMonAvail = {
+    selected: false,
+    timeRange: "",
+    noOfMinsInTimeRange: "",
+    slotDuration: "",
+    noOfSlots: "",
+    slots: [],
+  };
+
+  const emptyTueAvail = {
+    selected: false,
+    timeRange: "",
+    noOfMinsInTimeRange: "",
+    slotDuration: "",
+    noOfSlots: "",
+    slots: [],
+  };
+
+  const emptyWedAvail = {
+    selected: false,
+    timeRange: "",
+    noOfMinsInTimeRange: "",
+    slotDuration: "",
+    noOfSlots: "",
+    slots: [],
+  };
+
+  const emptyThuAvail = {
+    selected: false,
+    timeRange: "",
+    noOfMinsInTimeRange: "",
+    slotDuration: "",
+    noOfSlots: "",
+    slots: [],
+  };
+
+  const emptyFriAvail = {
+    selected: false,
+    timeRange: "",
+    noOfMinsInTimeRange: "",
+    slotDuration: "",
+    noOfSlots: "",
+    slots: [],
+  };
+
+  const emptySatAvail = {
+    selected: false,
+    timeRange: "",
+    noOfMinsInTimeRange: "",
+    slotDuration: "",
+    noOfSlots: "",
+    slots: [],
+  };
+
   let date = new Date();
   let firstDay = new Date(date.getFullYear(), 0, 1);
   // calculating number of days in given year before a given date
@@ -108,6 +171,33 @@ const Availability = () => {
       // return console.log(total);
     }
   };
+
+  // const handleSelect = (e, dayAvail) => {
+  //   setTimeRange((prevRange) => ({
+  //     ...prevRange,
+  //     [dayAvail]: {
+  //       ...prevRange.dayAvail,
+  //       slotDuration: e.target.value,
+  //       noOfSlots: prevRange.dayAvail.noOfMinsInTimeRange / e.target.value,
+  //       slots: getTimeSlots(
+  //         timeRange.dayAvail.timeRange[0],
+  //         timeRange.dayAvail.timeRange[1],
+  //         e.target.value
+  //       ),
+  //     },
+  //   }));
+  // };
+
+  // const handlePickerChange = (value, dayAvail) => {
+  //   setTimeRange((prevState) => ({
+  //     ...prevState,
+  //     [dayAvail]: {
+  //       ...prevState.dayAvail,
+  //       timeRange: value,
+  //       noOfMinsInTimeRange: calculateSlotTime(value[0], value[1]),
+  //     },
+  //   }));
+  // };
 
   const getTimeSlots = (start, end, slotDuration) => {
     let startTime = moment(start, "HH:mm");
@@ -156,10 +246,7 @@ const Availability = () => {
                   setTimeRange((prevState) => {
                     return {
                       ...prevState,
-                      sunAvail: {
-                        ...prevState.sunAvail,
-                        selected: false,
-                      },
+                      sunAvail: emptySunAvail,
                     };
                   });
                 }
@@ -172,7 +259,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) =>
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -240,10 +327,7 @@ const Availability = () => {
                   setTimeRange((prevState) => {
                     return {
                       ...prevState,
-                      monAvail: {
-                        ...prevState.monAvail,
-                        selected: false,
-                      },
+                      monAvail: emptyMonAvail,
                     };
                   });
                 }
@@ -257,7 +341,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) =>
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -271,6 +355,7 @@ const Availability = () => {
                       },
                     }))
                   }
+                  // onChange={(value) => handlePickerChange(value, "monAvail")}
                   value={timeRange.monAvail.timeRange}
                 />
                 <select
@@ -325,10 +410,7 @@ const Availability = () => {
                   setTimeRange((prevState) => {
                     return {
                       ...prevState,
-                      tueAvail: {
-                        ...prevState.tueAvail,
-                        selected: false,
-                      },
+                      tueAvail: emptyTueAvail,
                     };
                   });
                 }
@@ -342,7 +424,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) =>
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -402,10 +484,7 @@ const Availability = () => {
                   setTimeRange((prevState) => {
                     return {
                       ...prevState,
-                      wedAvail: {
-                        ...prevState.wedAvail,
-                        selected: true,
-                      },
+                      wedAvail: emptyWedAvail,
                     };
                   });
                 } else {
@@ -428,7 +507,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) =>
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -496,10 +575,7 @@ const Availability = () => {
                   setTimeRange((prevState) => {
                     return {
                       ...prevState,
-                      thuAvail: {
-                        ...prevState.thuAvail,
-                        selected: false,
-                      },
+                      thuAvail: emptyThuAvail,
                     };
                   });
                 }
@@ -513,7 +589,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) => {
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -581,10 +657,7 @@ const Availability = () => {
                   setTimeRange((prevState) => {
                     return {
                       ...prevState,
-                      friAvail: {
-                        ...prevState.friAvail,
-                        selected: false,
-                      },
+                      friAvail: emptyFriAvail,
                     };
                   });
                 }
@@ -598,7 +671,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) => {
                     setTimeRange((prevRange) => ({
                       ...prevRange,
@@ -667,10 +740,7 @@ const Availability = () => {
                   setTimeRange((prevState) => {
                     return {
                       ...prevState,
-                      satAvail: {
-                        ...prevState.satAvail,
-                        selected: false,
-                      },
+                      satAvail: emptySatAvail,
                     };
                   });
                 }
@@ -684,7 +754,7 @@ const Availability = () => {
               <>
                 <TimeRangePicker
                   disableClock={true}
-                  clearIcon={<FaRegTrashAlt />}
+                  clearIcon={""}
                   onChange={(value) => {
                     setTimeRange((prevRange) => ({
                       ...prevRange,
