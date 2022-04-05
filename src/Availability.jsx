@@ -136,14 +136,14 @@ const Availability = () => {
         key={pickerList.length}
         disableClock={true}
         clearIcon={""}
-        value={timeRange.monAvail.timeRange[pickerList.length + 1]}
+        value={timeRange.tueAvail.timeRange[pickerList.length - 1]}
         onChange={(value) =>
           setTimeRange((prevRange) => ({
             ...prevRange,
-            monAvail: {
-              ...prevRange.monAvail,
+            tueAvail: {
+              ...prevRange.tueAvail,
               timeRange: [
-                ...prevRange.monAvail.timeRange,
+                ...prevRange.tueAvail.timeRange,
                 Array(value[0], value[1]),
               ],
               noOfMinsInTimeRange: calculateSlotTime(value[0], value[1]),
@@ -393,24 +393,33 @@ const Availability = () => {
               <p>Unavailable</p>
             ) : (
               <>
-                <TimeRangePicker
-                  disableClock={true}
-                  clearIcon={""}
-                  onChange={(value) =>
-                    setTimeRange((prevRange) => ({
-                      ...prevRange,
-                      tueAvail: {
-                        ...prevRange.tueAvail,
-                        timeRange: value,
-                        noOfMinsInTimeRange: calculateSlotTime(
-                          value[0],
-                          value[1]
-                        ),
-                      },
-                    }))
-                  }
-                  value={timeRange.tueAvail.timeRange}
-                />
+                <div className="time-picker-container">
+                  <TimeRangePicker
+                    disableClock={true}
+                    clearIcon={""}
+                    onChange={(value) =>
+                      setTimeRange((prevRange) => ({
+                        ...prevRange,
+                        tueAvail: {
+                          ...prevRange.tueAvail,
+                          timeRange: getTimeRange(value[0], value[1]),
+                          noOfMinsInTimeRange: calculateSlotTime(
+                            value[0],
+                            value[1]
+                          ),
+                        },
+                      }))
+                    }
+                    value={timeRange.tueAvail.timeRange[0]}
+                  />
+                  {pickerList}
+                </div>
+                <MdAddCircleOutline onClick={() => {}} />
+                {pickerList.length > 0 ? (
+                  <FaRegTrashAlt onClick={handleDelete} />
+                ) : (
+                  ""
+                )}
                 <select
                   name="slot"
                   id="slotSelect"
